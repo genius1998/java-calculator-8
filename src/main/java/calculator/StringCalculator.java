@@ -9,7 +9,7 @@ public class StringCalculator {
             return 0;
         }
 
-        Matcher m = Pattern.compile("//(.)\\\\n(.*)").matcher(input);
+        Matcher m = Pattern.compile("//(.)\\n(.*)").matcher(input);
         if (m.find()) {
             String customDelimiter = m.group(1);
             String[] numbers = m.group(2).split(customDelimiter);
