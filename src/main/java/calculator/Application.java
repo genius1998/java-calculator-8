@@ -1,30 +1,28 @@
 package calculator;
 
 import camp.nextstep.edu.missionutils.Console;
-
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 
 public class Application {
     public static void main(String[] args) {
-        // UTF-8 강제 출력을 위한 PrintWriter 설정
-        PrintWriter writer = new PrintWriter(new OutputStreamWriter(System.out, StandardCharsets.UTF_8));
-        
+        // ✅ 콘솔 출력 UTF-8로 강제 (build.gradle, VM옵션 없이도 동작)
+        System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
+        System.setErr(new PrintStream(System.err, true, StandardCharsets.UTF_8));
+
         StringCalculator calculator = new StringCalculator();
 
-        writer.println("덧셈할 문자열을 입력해 주세요.");
-        writer.flush(); // 버퍼를 비워 메시지를 즉시 출력
-
+        System.out.println("덧셈할 문자열을 입력해 주세요.");
         String input = Console.readLine();
 
         try {
             int result = calculator.calculate(input);
-            writer.println("결과 : " + result);
+            System.out.println("결과 : " + result);
         } catch (IllegalArgumentException e) {
-            writer.println(e.getMessage());
-        } finally {
-            writer.close(); // PrintWriter 닫기
+            // 요구 사항에 따라 예외 발생 시 애플리케이션이 종료되도록 처리합니다.
+            // main 메소드가 끝나면 자연스럽게 종료됩니다.
+            // 필요하다면 예외 메시지를 출력할 수 있습니다.
+            System.out.println(e.getMessage());
         }
     }
 }

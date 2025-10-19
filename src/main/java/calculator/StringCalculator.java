@@ -9,10 +9,13 @@ public class StringCalculator {
             return 0;
         }
 
+        // 사용자가 입력한 문자 "\n"을 실제 줄바꿈 문자로 변경
+        input = input.replace("\\n", "\n");
+
         Matcher m = Pattern.compile("//(.)\\n(.*)").matcher(input);
         if (m.find()) {
             String customDelimiter = m.group(1);
-            String[] numbers = m.group(2).split(customDelimiter);
+            String[] numbers = m.group(2).split(Pattern.quote(customDelimiter));
             return sum(numbers);
         }
 
