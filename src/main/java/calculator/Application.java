@@ -3,11 +3,10 @@ package calculator;
 import camp.nextstep.edu.missionutils.Console;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.util.regex.Pattern;
 
 public class Application {
     public static void main(String[] args) {
-        // 콘솔 출력 UTF-8 고정 (빌드 수정 없음)
+        // 콘솔 출력 UTF-8 강제 (빌드 스크립트 변경 없이)
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         System.setErr(new PrintStream(System.err, true, StandardCharsets.UTF_8));
 
@@ -16,22 +15,19 @@ public class Application {
         System.out.println("덧셈할 문자열을 입력해 주세요.");
         String first = Console.readLine();
 
-        // ✅ 커스텀 구분자 헤더만 입력됐으면 두 번째 줄을 추가로 읽어서 합쳐준다.
-        //   ex) first = "//;"  (사용자가 다음 줄에 "1;2;3" 입력)
-        if (first != null && first.startsWith("//") && !first.contains("\\n") && !first.contains("\n")) {
-            // 줄바꿈 없이 헤더만 들어온 경우로 판단
-            String second = Console.readLine();             // "1;2;3"
+        // ✅ 커스텀 구분자 헤더만 있고(//...), 같은 줄에 리터럴 "\n"도 실제 개행도 없을 때만 2번째 줄을 추가로 읽음
+        if (first != null
+                && first.startsWith("//")
+                && !first.contains("\\n")   // 리터럴 \n 인라인 입력이면 두 줄 읽지 않음
+                && !first.contains("\n")) { // 실제 개행도 없으면
+            String second = Console.readLine();
             if (second != null) {
-                first = first + "\n" + second;              // "//;\n1;2;3" 형태로 만들어 calculate에 전달
+                first = first + "\n" + second;
             }
         }
 
-        try {
-            int result = calculator.calculate(first);
-            System.out.println("결과 : " + result);
-        } catch (IllegalArgumentException e) {
-            // 요구사항: 예외 발생 시 애플리케이션 종료 (메시지 출력 요구 X)
-            // 출력하지 않고 종료되도록 둔다.
-        }
+        // 예외는 잡지 말고 그대로 던져서 “예외 발생 후 종료” 요건 충족
+        int result = calculator.calculate(first);
+        System.out.println("결과 : " + result);
     }
 }
