@@ -1,5 +1,9 @@
 plugins {
     id 'java'
+    id 'application'
+}
+application {
+    mainClass = 'calculator.Application'
 }
 
 group = 'camp.nextstep.edu'
@@ -10,7 +14,9 @@ java {
         languageVersion = JavaLanguageVersion.of(21)
     }
 }
-
+tasks.named('run', JavaExec) {
+    standardInput = System.in
+}
 repositories {
     mavenCentral()
     maven { url 'https://jitpack.io' }
