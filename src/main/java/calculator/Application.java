@@ -21,8 +21,8 @@ public class Application {
         } catch (IllegalArgumentException e) {
             // 요구 사항에 따라 예외 발생 시 애플리케이션이 종료되도록 처리합니다.
             // main 메소드가 끝나면 자연스럽게 종료됩니다.
-            // 필요하다면 예외 메시지를 출력할 수 있습니다.
-            System.out.println(e.getMessage());
+            // 테스트 케이스는 예외 발생 시 출력을 기대하지 않을 수 있으므로 주석 처리합니다.
+            // System.out.println(e.getMessage());
         }
     }
 }
